@@ -23,6 +23,8 @@ namespace Trombinoscope.VueModeles
 
             CommandBoutonAbsent = new Command(ActionCommandBoutonAbsent);
 
+            UnEtudiant = Etudiant.CollClasse[0];
+
         }
 
         #endregion
@@ -50,12 +52,22 @@ namespace Trombinoscope.VueModeles
 
         public void ActionCommandBoutonPresent()
         {
+            Etudiant.AjoutCollEtudiantsPresents(this.UnEtudiant);
+            UnEtudiant = Etudiant.CollClasse[this.GetIndexCollEtudiants() + 1];
 
         }
 
         public void ActionCommandBoutonAbsent()
         {
+            Etudiant.AjoutCollEtudiantsAbsents(this.UnEtudiant);
+            UnEtudiant = Etudiant.CollClasse[this.GetIndexCollEtudiants() + 1];
+        }
 
+        private int GetIndexCollEtudiants()
+        {
+ 
+                    return Etudiant.CollClasse.IndexOf(UnEtudiant);
+   
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace Trombinoscope
         {
             InitializeComponent();
 
-            MainPage = new TrombinoscopeVue();
+            MainPage = new AbsenceVue();
         }
 
         protected override void OnStart()

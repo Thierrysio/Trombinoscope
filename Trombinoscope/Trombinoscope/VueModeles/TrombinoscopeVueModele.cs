@@ -75,7 +75,7 @@ namespace Trombinoscope.VueModeles
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    foreach (Etudiant unEtudiant in Etudiant.CollClasse)
+                    foreach (Etudiant unEtudiant in Etudiant.GetListeEtudiants())
                     {
                         Task.Delay(i*80).Wait();
                         UnEtudiant = unEtudiant;

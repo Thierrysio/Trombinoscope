@@ -11,6 +11,9 @@ namespace Trombinoscope.Modeles
 
         public static ObservableCollection<Etudiant> CollClasse = new ObservableCollection<Etudiant>();
 
+        public static ObservableCollection<Etudiant> CollEtudiantsPresents = new ObservableCollection<Etudiant>();
+        public static ObservableCollection<Etudiant> CollEtudiantsAbsents = new ObservableCollection<Etudiant>();
+
         private string _nom;
         private string _prenom;
         private DateTime _dateNaissance;
@@ -47,9 +50,9 @@ namespace Trombinoscope.Modeles
         public static Etudiant GetEtudiantSelectionne()
         {
              
-            if(Etudiant.GetListeEtudiants().Count > 0)
+            if(Etudiant.GetListeEtudiantsPresents().Count > 0)
             {
-                return Etudiant.CollClasse[Constantes.rnd.Next(0, Etudiant.CollClasse.Count - 1)]; 
+                return Etudiant.CollEtudiantsPresents[Constantes.rnd.Next(0, Etudiant.CollClasse.Count - 1)]; 
             }
             else 
             {
@@ -70,14 +73,22 @@ namespace Trombinoscope.Modeles
         }
         public static ObservableCollection<Etudiant> GetListeEtudiantsPresents()
         {
-            ObservableCollection<Etudiant> resultat = new ObservableCollection<Etudiant>();
-            return resultat;
+            return Etudiant.CollEtudiantsPresents;
         }
         public static ObservableCollection<Etudiant> GetListeEtudiantsAbsents()
         {
-            ObservableCollection<Etudiant> resultat = new ObservableCollection<Etudiant>();
-            return resultat;
+             return Etudiant.CollEtudiantsAbsents;
         }
+
+        public static void AjoutCollEtudiantsPresents(Etudiant param)
+        {
+            Etudiant.CollEtudiantsPresents.Add(param);
+        }
+        public static void AjoutCollEtudiantsAbsents(Etudiant param)
+        {
+            Etudiant.CollEtudiantsAbsents.Add(param);
+        }
+
         #endregion
     }
 }

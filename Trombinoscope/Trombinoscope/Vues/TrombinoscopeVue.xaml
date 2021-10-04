@@ -11,10 +11,11 @@
                 <BoxView.Background>
                     <LinearGradientBrush>
                         <GradientStop Color="#0B4108" Offset="0"/>
-						<GradientStop Color="#0D8108" Offset="1"/>
+                        <GradientStop Color="#0D8108" Offset="1"/>
                     </LinearGradientBrush>
                 </BoxView.Background>
             </BoxView>
+
             <Grid>
                 <Path Data="M0,0H375V262.033s-9.025,4.813-55.426-10.71-70.141-83.047-130.3-83.22-83.544,67.7-130.893,83.22S0,262.033,0,262.033Z"
                   Aspect="Fill" Fill="#FFBE00"/>

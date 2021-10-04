@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trombinoscope.Android", "Trombinoscope\Trombinoscope.Android\Trombinoscope.Android.csproj", "{EE110FEC-82DB-4D50-80AC-B4CF74904E25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trombinoscope", "Trombinoscope\Trombinoscope\Trombinoscope.csproj", "{87B54C30-09BA-426E-9F13-FD871B344B9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE110FEC-82DB-4D50-80AC-B4CF74904E25}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B54C30-09BA-426E-9F13-FD871B344B9D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E38F9CCD-881F-4BFD-8176-A2DE5BBCD753}
+	EndGlobalSection
+EndGlobal

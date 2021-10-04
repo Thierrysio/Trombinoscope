@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Trombinoscope.Modeles;
+using Trombinoscope.Vues;
 using Xamarin.Forms;
 
 namespace Trombinoscope.VueModeles
@@ -65,9 +66,17 @@ namespace Trombinoscope.VueModeles
 
         private int GetIndexCollEtudiants()
         {
- 
-                    return Etudiant.CollClasse.IndexOf(UnEtudiant);
-   
+            if (Etudiant.CollClasse.IndexOf(UnEtudiant) < Etudiant.GetListeEtudiants().Count)
+            {
+                return Etudiant.CollClasse.IndexOf(UnEtudiant);
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage(new TrombinoscopeVue());
+
+                
+            }
+            return 0;
         }
 
         #endregion

@@ -52,7 +52,7 @@ namespace Trombinoscope.Modeles
              
             if(Etudiant.GetListeEtudiantsPresents().Count > 0)
             {
-                return Etudiant.CollEtudiantsPresents[Constantes.rnd.Next(0, Etudiant.CollClasse.Count - 1)]; 
+                return Etudiant.CollEtudiantsPresents[Constantes.rnd.Next(0, Etudiant.GetListeEtudiantsPresents().Count - 1)]; 
             }
             else 
             {

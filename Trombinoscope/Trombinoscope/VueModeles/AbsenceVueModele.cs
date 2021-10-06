@@ -20,6 +20,7 @@ namespace Trombinoscope.VueModeles
 
         public AbsenceVueModele()
         {
+
             CommandBoutonPresent = new Command(ActionCommandBoutonPresent);
 
             CommandBoutonAbsent = new Command(ActionCommandBoutonAbsent);
@@ -66,17 +67,15 @@ namespace Trombinoscope.VueModeles
 
         private int GetIndexCollEtudiants()
         {
-            if (Etudiant.CollClasse.IndexOf(UnEtudiant) < Etudiant.GetListeEtudiants().Count)
+            if (Etudiant.CollClasse.IndexOf(UnEtudiant) < Etudiant.GetListeEtudiants().Count-1)
             {
                 return Etudiant.CollClasse.IndexOf(UnEtudiant);
             }
             else
             {
-                Application.Current.MainPage = new NavigationPage(new TrombinoscopeVue());
-
-                
+                Application.Current.MainPage = new NavigationPage(new TrombinoscopeVue());    
             }
-            return 0;
+            return Etudiant.GetListeEtudiants().Count - 2;
         }
 
         #endregion

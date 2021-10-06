@@ -1,12 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                          xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+
              x:Class="Trombinoscope.Vues.AbsenceVue">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid RowDefinitions="*, 2*, Auto">
+            <BoxView Grid.RowSpan="3">
+                <BoxView.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#0B4108" Offset="0"/>
+                        <GradientStop Color="#0D8108" Offset="1"/>
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+            <Grid>
+                <Path Data="M0,0H375V262.033s-9.025,4.813-55.426-10.71-70.141-83.047-130.3-83.22-83.544,67.7-130.893,83.22S0,262.033,0,262.033Z"
+                  Aspect="Fill" Fill="#FFBE00"/>
+            </Grid>
+            <StackLayout Grid.Row="1"  HorizontalOptions="Center" Margin="0,-140,0,0" Spacing="30">
+                    <Grid HeightRequest="210" WidthRequest="210" HorizontalOptions="Center">
+                        <Ellipse Stroke="White" StrokeThickness="2" Aspect="Fill"/>
+                        <controls:CircleImage x:Name="BannerImg" Source="{Binding UnEtudiant.Photo}" HeightRequest="150" WidthRequest="150" HorizontalOptions="Center"
+                    VerticalOptions="Center" />
+                    </Grid>
+                    <StackLayout HorizontalOptions="Center" Spacing="15">
+                        <Label Text="{Binding UnEtudiant.Prenom}" TextColor="White" FontSize="18" HorizontalOptions="Center"/>
+                       
+                </StackLayout>
+                <StackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="0,+140,0,0" Spacing="30">
+                    <Grid   ColumnDefinitions="5*, 5*"
+                            RowDefinitions="1*">
+                        <Button Grid.Row ="0" Grid.Column="0"  Text="Present" TextColor="White" BackgroundColor="#FFBE00" WidthRequest="150" HeightRequest="46" 
+                    CornerRadius="23" HorizontalOptions="Center" Command="{Binding CommandBoutonPresent}"/>
+                        <Button Grid.Row ="0" Grid.Column="1"  Text="Absent" TextColor="White" BackgroundColor="#FFBE00" WidthRequest="150" HeightRequest="46" 
+                    CornerRadius="23" HorizontalOptions="Center" Command="{Binding CommandBoutonAbsent}"/>
+
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+            
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

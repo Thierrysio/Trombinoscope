@@ -17,6 +17,13 @@ namespace Trombinoscope.Vues
         {
             InitializeComponent();
             BindingContext = vueModele = new TrombinoscopeVueModele();
+            Manote.ValueChanged += Manote_ValueChanged;
         }
+
+        private void Manote_ValueChanged(object sender,ValueChangedEventArgs e)
+        {
+            vueModele.ActionValueChangedNote(Manote.Value);
+        }
+
     }
 }

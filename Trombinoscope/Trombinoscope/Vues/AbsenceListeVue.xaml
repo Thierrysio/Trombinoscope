@@ -35,6 +35,7 @@
                 <Path Data="M0,0H375V262.033s-9.025,4.813-55.426-10.71-70.141-83.047-130.3-83.22-83.544,67.7-130.893,83.22S0,262.033,0,262.033Z"
                   Aspect="Fill" Fill="#FFBE00"/>
                 <Label Text="appel SIO 2" TextColor="White" FontSize="45" FontAttributes="Bold" HorizontalOptions="Center"/>
+
             </Grid>
             <StackLayout Grid.Row="1" HorizontalOptions="Center" Margin="0,-170,0,0" Spacing="30">
                 <Grid HeightRequest="120" WidthRequest="120" HorizontalOptions="Center">

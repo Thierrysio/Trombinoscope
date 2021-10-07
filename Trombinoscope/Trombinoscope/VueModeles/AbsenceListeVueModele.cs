@@ -92,10 +92,8 @@ namespace Trombinoscope.VueModeles
                 }
             }
 
-            int x = Etudiant.CollEtudiantsPresents.Count;
-
-            Application.Current.MainPage = new NavigationPage(new TrombinoscopeVue());
-
+            Application.Current.MainPage = new  TrombinoscopeVue();
+            
         }
         #endregion
     }

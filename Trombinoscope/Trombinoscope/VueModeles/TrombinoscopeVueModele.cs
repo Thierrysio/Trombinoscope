@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Trombinoscope.Modeles;
+using Trombinoscope.Vues;
 using Xamarin.Forms;
 
 namespace Trombinoscope.VueModeles
@@ -16,7 +17,6 @@ namespace Trombinoscope.VueModeles
         private Etudiant _unEtudiant;
         private double _note;
         private string _commentaire;
-        private int _xx;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace Trombinoscope.VueModeles
         {
             CommandBoutonGo = new Command(ActionCommandBoutonGo);
             CommandBoutonAppreciation = new Command(ActionAppreciation);
-
+            UnEtudiant = new Etudiant("", "", DateTime.Now, "intro.jpg");
         }
 
         #endregion
@@ -34,6 +34,7 @@ namespace Trombinoscope.VueModeles
         #region Getters/Setters
         public ICommand CommandBoutonGo { get; }
         public ICommand CommandBoutonAppreciation { get; }
+        public ICommand CommandNext => new Command(() => Application.Current.MainPage = new PalmaresVue());
 
 
         public Etudiant UnEtudiant
@@ -47,7 +48,6 @@ namespace Trombinoscope.VueModeles
                 SetProperty(ref _unEtudiant, value);
             }
         }
-
         public string Commentaire
         {
             get
@@ -57,18 +57,6 @@ namespace Trombinoscope.VueModeles
             set
             {
                 SetProperty(ref _commentaire, value);
-            }
-        }
-
-        public int Xx
-        {
-            get
-            {
-                return _xx;
-            }
-            set
-            {
-                SetProperty(ref _xx, value);
             }
         }
         public double Note
@@ -94,35 +82,41 @@ namespace Trombinoscope.VueModeles
             else if (param > 0.25) { Commentaire = "Insuffisant"; }
             else if (param < 0.25) { Commentaire = "Tres insuffisant"; }
 
-
-
-
         }
-
         public async void ActionAppreciation()
         {
-            var SalarieStored = await App.Database.GetRelationEtudiant(UnEtudiant);
-            
-            Appreciation A1 = new Appreciation();
+            //await App.Database.DeleteItemsAsyncAppreciation();
+            if ((Commentaire == "")||(Commentaire == "Ok - c'est fait"))
+            {
+                Commentaire = "et alors !!";
+                return;
+            }
+            var SalarieStored = await App.Database.GetEtudiantAvecRelations(UnEtudiant);
 
-            A1.UneAppreciation = Commentaire;
-            A1.LaDate = DateTime.Now;
-
+            Appreciation A1 = new Appreciation
+            {
+                UneAppreciation = Commentaire,
+                LaDate = DateTime.Now
+            };
             SalarieStored.LesAppreciations.Add(A1);
 
-            await App.Database.SaveItemAsyncAppreciation(A1);
+            await App.Database.SaveItemAppreciationAsync(A1);
 
             await App.Database.MiseAJourRelation(SalarieStored);
 
-            SalarieStored = await App.Database.GetRelationEtudiant(SalarieStored);
+            Commentaire = "Ok - c'est fait";
 
-            Xx = SalarieStored.LesAppreciations.Count;
         }
-
-
-        public async void ActionCommandBoutonGo()
+        public  void ActionCommandBoutonGo()
         {
             Commentaire = "";
+
+            this.Rotate();
+
+            
+        }
+        public async void Rotate()
+        {
             await Task.Run(() =>
             {
                 for (int i = 0; i < 2; i++)
@@ -134,16 +128,9 @@ namespace Trombinoscope.VueModeles
                     }
                 }
             });
-
+            
             UnEtudiant = Etudiant.GetEtudiantSelectionne();
-
-            var SalarieStored = await App.Database.GetRelationEtudiant(UnEtudiant);
-
-            Xx = SalarieStored.LesAppreciations.Count;
-
         }
-
-
         #endregion
     }
 }

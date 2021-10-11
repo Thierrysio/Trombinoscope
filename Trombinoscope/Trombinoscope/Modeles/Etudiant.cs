@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
@@ -13,18 +14,18 @@ namespace Trombinoscope.Modeles
     {
         #region Attributs
 
-        public static ObservableCollection<Etudiant> CollClasse = new ObservableCollection<Etudiant>();
         public static ObservableCollection<Etudiant> CollEtudiantsPresents = new ObservableCollection<Etudiant>();
         public static ObservableCollection<Etudiant> CollEtudiantsAbsents = new ObservableCollection<Etudiant>();
-        
+
         private int _id;
         private string _nom;
         private string _prenom;
         private DateTime _dateNaissance;
         private string _photo;
+        private string _photoPalmares;
         private ObservableCollection<Appreciation> _lesAppreciations;
 
-        
+
 
         #endregion
 
@@ -38,19 +39,16 @@ namespace Trombinoscope.Modeles
             _photo = photo;
             _lesAppreciations = new ObservableCollection<Appreciation>();
 
-
-            
         }
         public Etudiant()
         {
-            Etudiant.CollClasse.Add(this);
 
         }
 
         #endregion
 
         #region Getters/Setters
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int ID { get => _id; set => _id = value; }
         public string Nom { get => _nom; set => _nom = value; }
         public string Prenom { get => _prenom; set => _prenom = value; }
@@ -58,34 +56,103 @@ namespace Trombinoscope.Modeles
         public string Photo { get => _photo; set => _photo = value; }
         [OneToMany(CascadeOperations = CascadeOperation.All)]
         public ObservableCollection<Appreciation> LesAppreciations { get => _lesAppreciations; set => _lesAppreciations = value; }
-
-
+        public string PhotoPalmares { get => _photoPalmares; set => _photoPalmares = value; }
         #endregion
 
         #region Methodes
 
-        public static Etudiant GetEtudiantSelectionne()
+        public  static Etudiant GetEtudiantSelectionne()
         {
-             
-            if(Etudiant.GetListeEtudiantsPresents().Count > 0)
+            if (Etudiant.GetListeEtudiantsPresents().Count > 0)
             {
-                return Etudiant.CollEtudiantsPresents[Constantes.rnd.Next(0, Etudiant.GetListeEtudiantsPresents().Count - 1)]; 
+                ObservableCollection<Etudiant> collProvisoire = new ObservableCollection<Etudiant>();
+                
+                foreach (Etudiant unEtudiant in Etudiant.GetListeEtudiantsPresents())
+                {
+                    try
+                    {
+                        Etudiant theEtudiant = App.Database.GetEtudiantAvecRelations(unEtudiant).Result;
+                        double totalAppreciations = (double)theEtudiant.LesAppreciations.Count * 10;
+                        if (theEtudiant.LesAppreciations.Count > 0)
+                        {
+                            int compteur = 0;
+
+                            foreach (Appreciation uneAppreciation in theEtudiant.LesAppreciations)
+                            {
+                                switch (uneAppreciation.UneAppreciation)
+                                {
+                                    case "Tres insuffisant":
+                                        compteur -= 10;
+                                        break;
+                                    case "Insuffisant":
+                                        compteur -= 5;
+                                        break;
+                                    case "Satisfaisant":
+                                        compteur += 5;
+                                        break;
+                                    case "Tres satisfaisant":
+                                        compteur += 10;
+                                        break;
+                                    default:
+                                        compteur += 0;
+                                        break;
+
+                                }
+                            }
+
+                            /////////////////////////
+                            if (compteur / totalAppreciations * 100 > 75)
+                            {
+                                unEtudiant.PhotoPalmares = "A4etoiles.png";
+                            }
+                            else if (compteur / totalAppreciations * 100 > 50)
+                            {
+                                unEtudiant.PhotoPalmares = "A3etoiles.png";
+                            }
+                            else if (compteur / totalAppreciations * 100 > 25)
+                            {
+                                unEtudiant.PhotoPalmares = "A2etoiles.png";
+                                collProvisoire.Add(unEtudiant);
+                            }
+                            else
+                            {
+                                unEtudiant.PhotoPalmares = "A1etoile.png";
+                                collProvisoire.Add(unEtudiant);
+                            }
+
+                            compteur = 0;
+                            
+
+                        }
+                        else
+                        {
+                            collProvisoire.Add(unEtudiant);
+                        }
+                    }
+                    catch
+                    {
+                        collProvisoire.Add(unEtudiant);
+                    }
+                }
+
+
+                if (collProvisoire.Count > 0)
+                { 
+                    return collProvisoire[Constantes.rnd.Next(0, collProvisoire.Count - 1)]; 
+                }
+                else 
+                { 
+                    return Etudiant.CollEtudiantsPresents[Constantes.rnd.Next(0, Etudiant.CollEtudiantsPresents.Count - 1)]; 
+                }
             }
-            else 
+            else
             {
                 return null;
             }
         }
         public static ObservableCollection<Etudiant> GetListeEtudiants()
         {
-            return Etudiant.CollClasse;
-            
-            /*foreach(Etudiant unEtudiant in Etudiant.CollClasse)
-            {
-                resultat.Add(unEtudiant);
-            }
-            return resultat;
-            */
+            return Etudiant.GetListSQLite();
         }
         public static ObservableCollection<Etudiant> GetListeEtudiantsPresents()
         {
@@ -93,9 +160,8 @@ namespace Trombinoscope.Modeles
         }
         public static ObservableCollection<Etudiant> GetListeEtudiantsAbsents()
         {
-             return Etudiant.CollEtudiantsAbsents;
+            return Etudiant.CollEtudiantsAbsents;
         }
-
         public static void AjoutCollEtudiantsPresents(Etudiant param)
         {
             Etudiant.CollEtudiantsPresents.Add(param);
@@ -104,22 +170,21 @@ namespace Trombinoscope.Modeles
         {
             Etudiant.CollEtudiantsAbsents.Add(param);
         }
-
-        public static async Task<List<Etudiant>> GetListSQLite()
+        public static ObservableCollection<Etudiant> GetListSQLite()
         {
-            return await App.Database.GetItemsEtudiantsAsync();
+            return App.Database.GetItemsEtudiantsAsync();
 
         }
-
-        public static async void AjoutItemSqlite(Etudiant param)
+        public static async Task<Etudiant> AjoutItemSqlite(Etudiant param)
         {
-            await App.Database.SaveItemAsync(param);
-  
+            await App.Database.SaveItemEtudiantAsync(param);
+            return param;
+
         }
 
-       
-            #endregion
-        }
+
+        #endregion
+    }
 
 
 }

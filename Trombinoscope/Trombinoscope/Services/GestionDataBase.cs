@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,19 +48,7 @@ namespace Trombinoscope.Services
             }
         }
 
-        public Task<List<Etudiant>> GetItemsEtudiantsAsync()
-        {
-
-            return Database.Table<Etudiant>().ToListAsync();
-        }
-
-
-        public Task<Etudiant> GetItemAsync(int id)
-        {
-            return Database.Table<Etudiant>().Where(i => i.ID == id).FirstOrDefaultAsync();
-        }
-
-        public Task<int> SaveItemAsync(Etudiant item)
+        public Task<int> SaveItemEtudiantAsync(Etudiant item)
         {
             if (item.ID != 0)
             {
@@ -70,7 +59,7 @@ namespace Trombinoscope.Services
                 return Database.InsertAsync(item);
             }
         }
-        public Task<int> SaveItemAsyncAppreciation(Appreciation item)
+        public Task<int> SaveItemAppreciationAsync(Appreciation item)
         {
             if (item.ID != 0)
             {
@@ -80,20 +69,32 @@ namespace Trombinoscope.Services
             {
                 return Database.InsertAsync(item);
             }
-        }
-
-        public Task<int> DeleteItemsAsyncAppreciation()
-        {
-            return Database.DeleteAllAsync<Appreciation>();
         }
         public Task MiseAJourRelation(object item)
         {
             return Database.UpdateWithChildrenAsync(item);
+        }        
+        public Task<int> DeleteItemsAsyncAppreciation()
+        {
+            return Database.DeleteAllAsync<Appreciation>();
+        }        
+        public ObservableCollection<Etudiant> GetItemsEtudiantsAsync()
+        {
+            ObservableCollection<Etudiant> resultat = new ObservableCollection<Etudiant>();
+            List<Etudiant> liste =  Database.Table<Etudiant>().ToListAsync().Result;
+            foreach (Etudiant unEtudiant in liste)
+            {
+                resultat.Add(unEtudiant);
+            }
+            return resultat;
         }
-
-        public Task<Etudiant> GetRelationEtudiant(Etudiant item)
+        public Task<Etudiant> GetEtudiantAvecRelations(Etudiant item)
         {
             return Database.GetWithChildrenAsync<Etudiant>(item.ID);
+        }
+        public Task<Etudiant> GetItemAsync(int id)
+        {
+            return Database.Table<Etudiant>().Where(i => i.ID == id).FirstOrDefaultAsync();
         }
 
         #endregion

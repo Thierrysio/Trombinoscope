@@ -18,11 +18,13 @@
             <Grid>
                 <Path Data="M0,0H375V262.033s-9.025,4.813-55.426-10.71-70.141-83.047-130.3-83.22-83.544,67.7-130.893,83.22S0,262.033,0,262.033Z"
                   Aspect="Fill" Fill="#FFBE00"/>
+                <ImageButton Source="next.png" WidthRequest="50" HeightRequest="50" HorizontalOptions="End" VerticalOptions="Start" Margin="25" Command="{Binding CommandNext}"/>
+
             </Grid>
             <StackLayout Grid.Row="1" HorizontalOptions="Center" Margin="0,-140,0,0" Spacing="30">
                 <Grid HeightRequest="210" WidthRequest="210" HorizontalOptions="Center">
                     <Ellipse Stroke="White" StrokeThickness="2" Aspect="Fill"/>
-                    <controls:CircleImage x:Name="BannerImg" Source="{Binding UnEtudiant.Photo}" HeightRequest="150" WidthRequest="150" HorizontalOptions="Center"
+                    <controls:CircleImage x:Name="BannerImg" Source="{Binding UnEtudiant.Photo}" HeightRequest="150" WidthRequest="150" Aspect="AspectFill" HorizontalOptions="Center"
                     VerticalOptions="Center" />
                     
                 </Grid>

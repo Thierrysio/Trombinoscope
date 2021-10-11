@@ -10,13 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace Trombinoscope.Vues
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AbsenceVue : ContentPage
+    public partial class PalmaresVue : ContentPage
     {
-        AbsenceVueModele vueModele;
-        public AbsenceVue()
+         readonly PalmaresVueModele vueModele;
+        public PalmaresVue()
         {
             InitializeComponent();
-            BindingContext = vueModele = new AbsenceVueModele();
+            BindingContext = vueModele = new PalmaresVueModele();
         }
     }
 }

@@ -10,21 +10,18 @@ using Xamarin.Forms.Xaml;
 
 namespace Trombinoscope
 {
-   
+
     public partial class App : Application
     {
         static GestionDataBase database;
         public List<Etudiant> listeEtudiants;
-        public    App()
+        public App()
         {
             InitializeComponent();
 
-            GetListe();
-           
-         
             MainPage = new AbsenceListeVue();
         }
-        
+
         protected override void OnStart()
         {
         }
@@ -51,10 +48,10 @@ namespace Trombinoscope
 
         public async Task GetListe()
         {
-            
-            listeEtudiants = await  Etudiant.GetListSQLite();
 
-            if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "ROBIN") == null) Etudiant.AjoutItemSqlite(new Etudiant("ROBIN", "oceane", new DateTime(2002, 10, 24), "oceane.jpg"));
+            //listeEtudiants = await  Etudiant.GetListSQLite().;
+            /*
+            if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "ROBIN") == null)  Etudiant.AjoutItemSqlite(new Etudiant("ROBIN", "oceane", new DateTime(2002, 10, 24), "oceane.jpg"));
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "DESABLENS") == null) Etudiant.AjoutItemSqlite(new Etudiant("DESABLENS", "maeva", new DateTime(2002, 02, 24), "maeva.jpg"));
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "L'HER") == null) Etudiant.AjoutItemSqlite(new Etudiant("L'HER", "emilie", new DateTime(2002, 12, 03), "emilie.jpg"));
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "LEMARCHAND") == null) Etudiant.AjoutItemSqlite(new Etudiant("BIGNON", "anthony", new DateTime(2002, 12, 18), "anthony.jpg"));
@@ -69,7 +66,7 @@ namespace Trombinoscope
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "TACON") == null) Etudiant.AjoutItemSqlite(new Etudiant("TACON", "romain", new DateTime(1999, 11, 02), "romain.jpg"));
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "TAZARART") == null) Etudiant.AjoutItemSqlite(new Etudiant("TAZARART", "thereza", new DateTime(2001, 06, 16), "thereza.jpg"));
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "DARGHI") == null) Etudiant.AjoutItemSqlite(new Etudiant("DARGHI", "wassil", new DateTime(2000, 10, 13), "wassil.jpg"));
-
+            */
             //int x = await App.database.DeleteItemsAsyncAppreciation();
         }
     }

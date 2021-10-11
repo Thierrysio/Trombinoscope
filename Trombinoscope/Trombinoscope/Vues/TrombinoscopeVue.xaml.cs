@@ -12,11 +12,12 @@ namespace Trombinoscope.Vues
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TrombinoscopeVue : ContentPage
     {
-        TrombinoscopeVueModele vueModele;
+      readonly  TrombinoscopeVueModele vueModele;
         public TrombinoscopeVue()
         {
             InitializeComponent();
             BindingContext = vueModele = new TrombinoscopeVueModele();
+           
             Manote.ValueChanged += Manote_ValueChanged;
         }
 

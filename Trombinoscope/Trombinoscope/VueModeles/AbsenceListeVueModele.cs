@@ -22,12 +22,9 @@ namespace Trombinoscope.VueModeles
 
         public AbsenceListeVueModele()
         {
-
-            
-            ListeEtudiant = Etudiant.GetListeEtudiants();
-
+            ListeEtudiant =  Etudiant.GetListeEtudiants();
             SelectedEtudiants = new ObservableCollection<object>();
-            
+            UnEtudiant = new Etudiant("", "", DateTime.Now, "intro.jpg");
         }
 
         #endregion
@@ -36,7 +33,6 @@ namespace Trombinoscope.VueModeles
 
         public ICommand SelectionChangedCommandEtudiant => new Command(Method);
         public ICommand CommandBoutonGo => new Command(ActionCommandBoutonGo);
-
         public ObservableCollection<Etudiant> ListeEtudiant
         {
             get
@@ -48,7 +44,6 @@ namespace Trombinoscope.VueModeles
                 SetProperty(ref _listeEtudiant, value);
             }
         }
-
         public ObservableCollection<object> SelectedEtudiants
         {
             get
@@ -60,7 +55,6 @@ namespace Trombinoscope.VueModeles
                 SetProperty(ref _selectedEtudiants, value);
             }
         }
-
         public Etudiant UnEtudiant
         {
             get
@@ -78,13 +72,12 @@ namespace Trombinoscope.VueModeles
         #region Methodes
         public void Method()
         {
-            if (SelectedEtudiants.Count >0)
-            UnEtudiant = (Etudiant) this.SelectedEtudiants[SelectedEtudiants.Count - 1];
+            if (SelectedEtudiants.Count > 0)
+                UnEtudiant = (Etudiant)this.SelectedEtudiants[SelectedEtudiants.Count - 1];
         }
-
         public void ActionCommandBoutonGo()
         {
-            foreach(Etudiant unetudiant in Etudiant.CollClasse)
+            foreach (Etudiant unetudiant in ListeEtudiant)
             {
                 if (!this.SelectedEtudiants.Contains(unetudiant))
                 {
@@ -92,9 +85,10 @@ namespace Trombinoscope.VueModeles
                 }
             }
 
-            Application.Current.MainPage = new  TrombinoscopeVue();
-            
+            Application.Current.MainPage = new TrombinoscopeVue();
+
         }
-        #endregion
+        
+            #endregion
+        }
     }
-}

@@ -26,7 +26,13 @@ namespace Trombinoscope.VueModeles
         {
             CommandBoutonGo = new Command(ActionCommandBoutonGo);
             CommandBoutonAppreciation = new Command(ActionAppreciation);
-            UnEtudiant = new Etudiant("", "", DateTime.Now, "intro.jpg");
+            UnEtudiant = new Etudiant
+            {
+                Nom = "",
+                Prenom = "",
+                DateNaissance = DateTime.Now,
+                Photo = "intro.jpg"
+            };
         }
 
         #endregion

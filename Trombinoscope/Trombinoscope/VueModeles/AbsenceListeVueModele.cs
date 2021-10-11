@@ -22,9 +22,11 @@ namespace Trombinoscope.VueModeles
 
         public AbsenceListeVueModele()
         {
-            ListeEtudiant =  Etudiant.GetListeEtudiants();
+            ListeEtudiant = Etudiant.GetListeEtudiants();
             SelectedEtudiants = new ObservableCollection<object>();
-            UnEtudiant = new Etudiant("", "", DateTime.Now, "intro.jpg");
+            UnEtudiant = new Etudiant { 
+                Nom = "", Prenom = "",DateNaissance = DateTime.Now, Photo = "intro.jpg"
+                };
         }
 
         #endregion

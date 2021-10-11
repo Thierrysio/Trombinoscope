@@ -12,8 +12,6 @@ namespace Trombinoscope.Modeles
     {
         #region Attributs
 
-        public static ObservableCollection<Appreciation> CollClasse = new ObservableCollection<Appreciation>();
-
         private int _id;
         private DateTime _laDate;
         private string _uneAppreciation;
@@ -27,7 +25,6 @@ namespace Trombinoscope.Modeles
 
         public Appreciation()
         {
-            Appreciation.CollClasse.Add(this);
            
         }
 

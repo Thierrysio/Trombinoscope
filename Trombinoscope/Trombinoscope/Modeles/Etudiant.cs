@@ -30,16 +30,7 @@ namespace Trombinoscope.Modeles
         #endregion
 
         #region Constructeurs
-        public Etudiant(string nom, string prenom, DateTime dateNaissance, string photo)
-        {
-            _id = ID;
-            _nom = nom;
-            _prenom = prenom;
-            _dateNaissance = dateNaissance;
-            _photo = photo;
-            _lesAppreciations = new ObservableCollection<Appreciation>();
 
-        }
         public Etudiant()
         {
 

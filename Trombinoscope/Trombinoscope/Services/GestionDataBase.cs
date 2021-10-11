@@ -31,12 +31,15 @@ namespace Trombinoscope.Services
         {
             if (!initialized)
             {
+
+                //Code à dupliquer par autant de classes existantes
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Etudiant).Name))
                 {
 
                     await Database.CreateTablesAsync(CreateFlags.None, typeof(Etudiant)).ConfigureAwait(false);
 
                 }
+                // fin de code à dupliquer
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Appreciation).Name))
                 {
 
@@ -77,7 +80,12 @@ namespace Trombinoscope.Services
         public Task<int> DeleteItemsAsyncAppreciation()
         {
             return Database.DeleteAllAsync<Appreciation>();
-        }        
+        }
+        public Task<int> DeleteItemsAsyncEtudiant()
+        {
+            return Database.DeleteAllAsync<Etudiant>();
+        }
+
         public ObservableCollection<Etudiant> GetItemsEtudiantsAsync()
         {
             ObservableCollection<Etudiant> resultat = new ObservableCollection<Etudiant>();

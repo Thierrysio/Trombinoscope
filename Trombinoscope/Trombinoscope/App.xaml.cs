@@ -49,9 +49,9 @@ namespace Trombinoscope
 
         public async Task GetListe()
         {
-            await App.database.DeleteItemsAsyncEtudiant();
+            //await App.database.DeleteItemsAsyncEtudiant();
 
-            listeEtudiants =   Etudiant.GetListSQLite();
+            listeEtudiants =   App.Database.GetItemsAsync<Etudiant>();
             
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "ROBIN") == null) await Etudiant.AjoutItemSqlite(new Etudiant {Nom= "ROBIN",Prenom = "oceane", DateNaissance =new DateTime(2002, 10, 24),Photo = "oceane.jpg" });
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "DESABLENS") == null) await Etudiant.AjoutItemSqlite(new Etudiant { Nom = "DESABLENS", Prenom = "maeva", DateNaissance = new DateTime(2002, 02, 24), Photo = "maeva.jpg" });
@@ -69,8 +69,7 @@ namespace Trombinoscope
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "TAZARART") == null) await Etudiant.AjoutItemSqlite(new Etudiant{ Nom = "TAZARART", Prenom = "thereza", DateNaissance = new DateTime(2001, 06, 16), Photo = "thereza.jpg" });
             if (listeEtudiants.FirstOrDefault(cus => cus.Nom == "DARGHI") == null) await Etudiant.AjoutItemSqlite(new Etudiant{ Nom = "DARGHI", Prenom = "wassil", DateNaissance = new DateTime(2000, 10, 13), Photo = "wassil.jpg" });
 
-            listeEtudiants = Etudiant.GetListSQLite();
-            //int x = await App.database.DeleteItemsAsyncAppreciation();
+           
         }
     }
 }

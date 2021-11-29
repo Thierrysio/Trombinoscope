@@ -62,7 +62,7 @@ namespace Trombinoscope.Modeles
                 {
                     try
                     {
-                        Etudiant theEtudiant = App.Database.GetEtudiantAvecRelations(unEtudiant).Result;
+                        Etudiant theEtudiant = App.Database.GetItemAvecRelations<Etudiant>(unEtudiant).Result;
                         double totalAppreciations = (double)theEtudiant.LesAppreciations.Count * 10;
                         if (theEtudiant.LesAppreciations.Count > 0)
                         {
@@ -143,7 +143,7 @@ namespace Trombinoscope.Modeles
         }
         public static ObservableCollection<Etudiant> GetListeEtudiants()
         {
-            return Etudiant.GetListSQLite();
+            return App.Database.GetItemsAsync<Etudiant>();
         }
         public static ObservableCollection<Etudiant> GetListeEtudiantsPresents()
         {
@@ -161,14 +161,9 @@ namespace Trombinoscope.Modeles
         {
             Etudiant.CollEtudiantsAbsents.Add(param);
         }
-        public static ObservableCollection<Etudiant> GetListSQLite()
-        {
-            return App.Database.GetItemsEtudiantsAsync();
-
-        }
         public static async Task<Etudiant> AjoutItemSqlite(Etudiant param)
         {
-            await App.Database.SaveItemEtudiantAsync(param);
+            await App.Database.SaveItemAsync<Etudiant>(param);
             return param;
 
         }

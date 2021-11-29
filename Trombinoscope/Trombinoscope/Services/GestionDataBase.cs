@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
@@ -31,29 +32,28 @@ namespace Trombinoscope.Services
         {
             if (!initialized)
             {
-
-                //Code à dupliquer par autant de classes existantes
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Etudiant).Name))
                 {
 
                     await Database.CreateTablesAsync(CreateFlags.None, typeof(Etudiant)).ConfigureAwait(false);
 
                 }
-                // fin de code à dupliquer
                 if (!Database.TableMappings.Any(m => m.MappedType.Name == typeof(Appreciation).Name))
                 {
 
                     await Database.CreateTablesAsync(CreateFlags.None, typeof(Appreciation)).ConfigureAwait(false);
 
                 }
-               
-                initialized = true;
-            }
-        }
 
-        public Task<int> SaveItemEtudiantAsync(Etudiant item)
+            }
+            initialized = true;
+        }
+        public Task<int> SaveItemAsync<T>(T item)
         {
-            if (item.ID != 0)
+
+            PropertyInfo x = (item.GetType().GetProperty("ID"));
+            int nbi = Convert.ToInt32(x.GetValue(item));
+            if (nbi != 0)
             {
                 return Database.UpdateAsync(item);
             }
@@ -62,49 +62,34 @@ namespace Trombinoscope.Services
                 return Database.InsertAsync(item);
             }
         }
-        public Task<int> SaveItemAppreciationAsync(Appreciation item)
-        {
-            if (item.ID != 0)
-            {
-                return Database.UpdateAsync(item);
-            }
-            else
-            {
-                return Database.InsertAsync(item);
-            }
-        }
-        public Task MiseAJourRelation(object item)
+        public Task MiseAJourItemRelation(object item)
         {
             return Database.UpdateWithChildrenAsync(item);
-        }        
-        public Task<int> DeleteItemsAsyncAppreciation()
-        {
-            return Database.DeleteAllAsync<Appreciation>();
         }
-        public Task<int> DeleteItemsAsyncEtudiant()
+        public Task<int> DeleteItemsAsync<T>()
         {
-            return Database.DeleteAllAsync<Etudiant>();
+            return Database.DeleteAllAsync<T>();
         }
-
-        public ObservableCollection<Etudiant> GetItemsEtudiantsAsync()
+        public ObservableCollection<T> GetItemsAsync<T>() where T : new()
         {
-            ObservableCollection<Etudiant> resultat = new ObservableCollection<Etudiant>();
-            List<Etudiant> liste =  Database.Table<Etudiant>().ToListAsync().Result;
-            foreach (Etudiant unEtudiant in liste)
+            ObservableCollection<T> resultat = new ObservableCollection<T>();
+            List<T> liste = Database.Table<T>().ToListAsync().Result;
+            foreach (T unObjet in liste)
             {
-                resultat.Add(unEtudiant);
+                resultat.Add(unObjet);
             }
             return resultat;
         }
-        public Task<Etudiant> GetEtudiantAvecRelations(Etudiant item)
+        public Task<T> GetItemAvecRelations<T>(T item) where T : new()
         {
-            return Database.GetWithChildrenAsync<Etudiant>(item.ID);
+            PropertyInfo x = (item.GetType().GetProperty("ID"));
+            int nbi = Convert.ToInt32(x.GetValue(item));
+            return Database.GetWithChildrenAsync<T>(nbi);
         }
-        public Task<Etudiant> GetItemAsync(int id)
+        public Task<T> GetItemAsync<T>(int id) where T : new()
         {
-            return Database.Table<Etudiant>().Where(i => i.ID == id).FirstOrDefaultAsync();
+            return Database.FindAsync<T>(id); ;
         }
-
         #endregion
     }
 }

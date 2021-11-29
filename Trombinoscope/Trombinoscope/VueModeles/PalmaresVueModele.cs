@@ -16,17 +16,16 @@ namespace Trombinoscope.VueModeles
         #region Attributs
         ObservableCollection<Etudiant> _maListePalmares;
         #endregion
-
         #region Constructeurs
-
         public PalmaresVueModele()
         {
-            ObservableCollection<Etudiant> listeProvisoire = Etudiant.GetListSQLite();
+            int nbStored = 0;
+            ObservableCollection<Etudiant> listeProvisoire = App.Database.GetItemsAsync<Etudiant>();
             Etudiant SalarieStored;
             double compteur = 0, totalAppreciations = 0;
             foreach (Etudiant unEtudiant in listeProvisoire)
             {
-                SalarieStored = App.Database.GetEtudiantAvecRelations(unEtudiant).Result;
+                SalarieStored = App.Database.GetItemAvecRelations<Etudiant>(unEtudiant).Result;
                 totalAppreciations = (double)SalarieStored.LesAppreciations.Count * 10;
                 foreach (Appreciation appreciation in SalarieStored.LesAppreciations)
                 {
@@ -68,16 +67,15 @@ namespace Trombinoscope.VueModeles
                     unEtudiant.PhotoPalmares = "A1etoile.png";
                 }
 
-                this.UpdateTableEtudiant(unEtudiant);
+                nbStored = App.Database.SaveItemAsync<Etudiant>(unEtudiant).Result;
                 compteur = 0;
                 totalAppreciations = 0;
             }
             MaListePalmares = new ObservableCollection<Etudiant>(listeProvisoire.OrderByDescending(c => c.PhotoPalmares));
         }
         #endregion
-
-            #region Getters/Setters
-        public ICommand CommandBack=> new Command(() => Application.Current.MainPage = new TrombinoscopeVue());
+        #region Getters/Setters
+        public ICommand CommandBack => new Command(() => Application.Current.MainPage = new TrombinoscopeVue());
         public ObservableCollection<Etudiant> MaListePalmares
         {
             get
@@ -91,14 +89,9 @@ namespace Trombinoscope.VueModeles
         }
 
         #endregion
-
         #region Methodes
 
-        public async void UpdateTableEtudiant(Etudiant param)
-            {
-            await App.Database.SaveItemEtudiantAsync(param);
-    }
 
-    #endregion
-}
+        #endregion
+    }
 }

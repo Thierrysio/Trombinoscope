@@ -24,8 +24,6 @@ namespace Trombinoscope.VueModeles
 
         public TrombinoscopeVueModele()
         {
-            CommandBoutonGo = new Command(ActionCommandBoutonGo);
-            CommandBoutonAppreciation = new Command(ActionAppreciation);
             UnEtudiant = new Etudiant
             {
                 Nom = "",
@@ -38,8 +36,8 @@ namespace Trombinoscope.VueModeles
         #endregion
 
         #region Getters/Setters
-        public ICommand CommandBoutonGo { get; }
-        public ICommand CommandBoutonAppreciation { get; }
+        public ICommand CommandBoutonGo => new Command(ActionCommandBoutonGo);
+        public ICommand CommandBoutonAppreciation => new Command(ActionAppreciation);
         public ICommand CommandNext => new Command(() => Application.Current.MainPage = new PalmaresVue());
 
 
@@ -91,13 +89,14 @@ namespace Trombinoscope.VueModeles
         }
         public async void ActionAppreciation()
         {
+            int nbStored = 0;
             //await App.Database.DeleteItemsAsyncAppreciation();
             if ((Commentaire == "")||(Commentaire == "Ok - c'est fait"))
             {
                 Commentaire = "et alors !!";
                 return;
             }
-            var SalarieStored = await App.Database.GetEtudiantAvecRelations(UnEtudiant);
+            Etudiant SalarieStored = await App.Database.GetItemAvecRelations<Etudiant>(UnEtudiant);
 
             Appreciation A1 = new Appreciation
             {
@@ -106,9 +105,9 @@ namespace Trombinoscope.VueModeles
             };
             SalarieStored.LesAppreciations.Add(A1);
 
-            await App.Database.SaveItemAppreciationAsync(A1);
+            nbStored =await App.Database.SaveItemAsync<Appreciation>(A1);
 
-            await App.Database.MiseAJourRelation(SalarieStored);
+            await App.Database.MiseAJourItemRelation(SalarieStored);
 
             Commentaire = "Ok - c'est fait";
 
